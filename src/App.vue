@@ -5,7 +5,7 @@
         
         <MyHeader></MyHeader>
 
-        <MyList></MyList>
+        <MyList :tudos="tudos"/>
         
         <MyFooter></MyFooter>
       </div>
@@ -22,7 +22,16 @@ export default {
   name: 'App',
   components: {
     MyHeader,MyList,MyFooter
-  }
+  },
+  data() {
+        return {
+            tudos:[
+                {id:'001',name:'吃饭',done:true},
+                {id:'002',name:'喝酒',done:false},
+                {id:'003',name:'开车',done:true}
+            ]
+        }
+    }
 }
 </script>
 

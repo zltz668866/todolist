@@ -4,7 +4,7 @@
       <input type="checkbox" />
     </label>
     <span>
-      <span>已完成{{doneTodo}}</span> / 全部{{total}}
+      <span>已完成{{}}</span> / 全部{{}}
     </span>
     <button>清除已完成任务</button>
   </div>
@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .todo-footer {
     height: 40px;
     line-height: 40px;

@@ -1,6 +1,6 @@
 <template>
    <ul class="todo-main">
-    <MyItem></MyItem>
+    <MyItem v-for="tudoObj in tudos" :key="tudoObj.id" :todo='tudoObj' />
   </ul>
 </template>
 
@@ -10,11 +10,13 @@ export default {
     name:'MyList',
     components:{
         MyItem
-    }
+    },
+    props:['tudos']
+    
 }
 </script>
 
-<style >
+<style>
     /*main*/
     .todo-main {
     margin-left: 0px;

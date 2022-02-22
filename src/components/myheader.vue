@@ -1,12 +1,25 @@
 <template>
   <div class="todo-header">
-    <input type="text" placeholder="请输入你的任务名称，按回车键确认" />
+    <input type="text" placeholder="请输入你的任务名称，按回车键确认"  @keyup.enter="add"/>
   </div>
 </template>
 
 <script>
-export default {
-    name:'MyHeader'
+import {nanoid} from 'nanoid'
+export default {  
+    name:'MyHeader',
+    data() {
+      return {
+        name:''  //第二种通过v-model动态获取数据方式
+      }
+    },
+    methods:{
+      add(e){
+        // console.log(event.target.value)  第二种获取输入数据方式
+        const todo={'id':nanoid(),'name':e.target.value,'done':false}
+        console.log(todo)
+      }
+    }
 }
 </script>
 
