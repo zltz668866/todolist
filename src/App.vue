@@ -3,11 +3,12 @@
     <div class="todo-container">
       <div class="todo-wrap">
         
-        <MyHeader></MyHeader>
+        <MyHeader @addTodo="addTodo"></MyHeader>
 
-        <MyList :tudos="tudos"/>
+        <!-- <MyList :tudos="tudos" :checkTodo='checkTodo' :deleteTodo='deleteTodo'/> -->
+        <MyList :tudos='tudos'></MyList>
         
-        <MyFooter></MyFooter>
+        <MyFooter :tudos='tudos' @checkedAll='checkedAll' @clearDone='clearDone'></MyFooter>
       </div>
     </div>
   </div>
@@ -24,13 +25,59 @@ export default {
     MyHeader,MyList,MyFooter
   },
   data() {
-        return {
-            tudos:[
-                {id:'001',name:'吃饭',done:true},
-                {id:'002',name:'喝酒',done:false},
-                {id:'003',name:'开车',done:true}
-            ]
+        return { 
+
+          
+            tudos:JSON.parse(localStorage.getItem('todos'))||[]
         }
+    },
+  methods:{
+    addTodo(todoObj){
+      this.tudos.unshift(todoObj)
+    },
+    checkTodo(id){
+      this.tudos.forEach(obj => {
+        if(obj.id===id){obj.done=!obj.done}
+      });
+    },
+    deleteTodo(id){
+      this.tudos=this.tudos.filter(obj =>{return obj.id!==id})
+    },
+    checkedAll(done){
+      this.tudos.forEach((todo)=>{
+        todo.done=done
+      })
+    },
+    clearDone(){
+      this.tudos=this.tudos.filter((obj)=>{return !obj.done===true})
+    },
+    changeName(id,newName){
+      this.tudos.forEach(obj=>{
+        if(obj.id===id){obj.name=newName}
+      })
+    }
+    },
+    watch:{
+        tudos:{
+          deep:true,
+          handler(value){
+            console.log(value);
+            window.localStorage.setItem('todos',JSON.stringify(value))
+          }
+        }
+      // tudos(value){
+      //   window.localStorage.setItem('todos',JSON.stringify(value))
+      // }
+    },
+    mounted(){
+      this.$bus.$on('checkTodo',this.checkTodo)
+      this.$bus.$on('deleteTodo',this.deleteTodo)
+      this.$bus.$on('changeName',this.changeName)
+    },
+    beforeDestroy(){
+      this.$bus.$off('checkTodo')
+      this.$bus.$off('deleteTodo')
+      this.$bus.$off('changeName')
     }
 }
 </script>

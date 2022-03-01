@@ -11,6 +11,7 @@ export default {
     components:{
         MyItem
     },
+    // props:['tudos','checkTodo','deleteTodo']
     props:['tudos']
     
 }
